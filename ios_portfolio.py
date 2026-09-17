@@ -1,11 +1,53 @@
-html_content = f"""<!DOCTYPE html>
+import os
+
+# Check available main thumbnails from 0 to 139
+images = []
+for i in range(140):
+    filename = f"thumbnail_{i}.jpg"
+    if os.path.exists(filename):
+        images.append(filename)
+
+# Check graveyard images (old1 to old6, excluding old5)
+graveyard_images = []
+for old_id in [1, 2, 3, 4, 6]:
+    filename = f"old{old_id}.jpg"
+    if os.path.exists(filename):
+        graveyard_images.append(filename)
+
+print(f"Found {len(images)} main thumbnails and {len(graveyard_images)} graveyard items. Generating full portfolio...")
+
+# Build gallery HTML dynamically using standard strings
+gallery_html = ""
+months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
+for index, img in enumerate(images):
+    year_num = 2019 + (index % 4)
+    month_name = months[(index * 3) % 12]
+    date_str = f"{month_name} {year_num}"
+    
+    gallery_html += f'    <div class="grid-item" onclick="openModal(this)">\n'
+    gallery_html += f'        <img src="{img}" alt="Thumbnail Work" loading="lazy">\n'
+    gallery_html += f'        <div class="date-overlay">{date_str}</div>\n'
+    gallery_html += f'    </div>\n'
+
+graveyard_html = ""
+for g_index, g_img in enumerate(graveyard_images):
+    g_year = 2019 if g_index < 3 else 2020
+    g_date = f"SEP {g_year}"
+    
+    graveyard_html += f'    <div class="grid-item" onclick="openModal(this)">\n'
+    graveyard_html += f'        <img src="{g_img}" alt="Old Iteration" loading="lazy">\n'
+    graveyard_html += f'        <div class="date-overlay">{g_date}</div>\n'
+    graveyard_html += f'    </div>\n'
+
+# Full HTML Template with your new story, Pixelmator note, and PC specs
+html_template = """<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GHUYD LAPAZ — Thumbnail Designer & Creator</title>
     <style>
-        :root {{
+        :root {
             --bg-color: #0a0a0a;
             --card-bg: #141414;
             --card-hover: #1a1a1a;
@@ -13,15 +55,15 @@ html_content = f"""<!DOCTYPE html>
             --text-muted: #a3a3a3;
             --border-color: #262626;
             --accent-color: #38bdf8;
-        }}
+        }
 
-        * {{
+        * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-        }}
+        }
 
-        body {{
+        body {
             background-color: var(--bg-color);
             color: var(--text-main);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -30,20 +72,20 @@ html_content = f"""<!DOCTYPE html>
             display: flex;
             flex-direction: column;
             align-items: center;
-        }}
+        }
 
-        .container {{
+        .container {
             width: 100%;
             max-width: 900px;
-        }}
+        }
 
-        header {{
+        header {
             margin-bottom: 60px;
             border-bottom: 1px solid var(--border-color);
             padding-bottom: 40px;
-        }}
+        }
 
-        .tagline-badge {{
+        .tagline-badge {
             display: inline-block;
             font-size: 0.8rem;
             text-transform: uppercase;
@@ -53,142 +95,142 @@ html_content = f"""<!DOCTYPE html>
             padding: 4px 10px;
             border-radius: 4px;
             margin-bottom: 16px;
-        }}
+        }
 
-        h1 {{
+        h1 {
             font-size: 2.8rem;
             font-weight: 600;
             letter-spacing: -0.03em;
             color: #ffffff;
             margin-bottom: 12px;
             text-transform: uppercase;
-        }}
+        }
 
-        .subtitle {{
+        .subtitle {
             font-size: 1.25rem;
             color: var(--text-muted);
             margin-bottom: 24px;
             font-weight: 400;
-        }}
+        }
 
-        .bio-text {{
+        .bio-text {
             font-size: 1.05rem;
             color: var(--text-muted);
             margin-bottom: 16px;
-        }}
+        }
 
-        .stats-grid {{
+        .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 12px;
             margin: 40px 0;
-        }}
+        }
 
-        .stat-card {{
+        .stat-card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 6px;
             padding: 20px;
             text-align: center;
-        }}
+        }
 
-        .stat-number {{
+        .stat-number {
             font-size: 1.5rem;
             font-weight: 600;
             color: #ffffff;
             margin-bottom: 4px;
-        }}
+        }
 
-        .stat-label {{
+        .stat-label {
             font-size: 0.8rem;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.05em;
-        }}
+        }
 
-        section {{
+        section {
             margin-bottom: 60px;
-        }}
+        }
 
-        h2 {{
+        h2 {
             font-size: 1.5rem;
             font-weight: 500;
             color: #ffffff;
             margin-bottom: 20px;
             letter-spacing: -0.02em;
             text-transform: uppercase;
-        }}
+        }
 
-        p {{
+        p {
             color: var(--text-muted);
             margin-bottom: 16px;
-        }}
+        }
 
-        .case-study, .specs-box {{
+        .case-study, .specs-box {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 6px;
             padding: 30px;
-        }}
+        }
 
-        .specs-grid {{
+        .specs-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
             margin-top: 20px;
-        }}
+        }
 
-        .spec-item h4 {{
+        .spec-item h4 {
             color: #ffffff;
             font-size: 1rem;
             margin-bottom: 6px;
-        }}
+        }
 
-        .case-study a {{
+        .case-study a {
             color: var(--accent-color);
             text-decoration: none;
-        }}
-        .case-study a:hover {{
+        }
+        .case-study a:hover {
             text-decoration: underline;
-        }}
+        }
 
-        .timeline-grid {{
+        .timeline-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 12px;
-        }}
+        }
 
-        .timeline-card {{
+        .timeline-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 6px;
             overflow: hidden;
             text-align: center;
             cursor: pointer;
-        }}
+        }
 
-        .timeline-card img {{
+        .timeline-card img {
             width: 100%;
             aspect-ratio: 16/9;
             object-fit: cover;
             display: block;
-        }}
+        }
 
-        .timeline-year {{
+        .timeline-year {
             padding: 10px;
             font-size: 0.85rem;
             color: var(--text-muted);
             border-top: 1px solid var(--border-color);
-        }}
+        }
 
-        .grid-container {{
+        .grid-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 0.5rem;
             width: 100%;
-        }}
+        }
 
-        .grid-item {{
+        .grid-item {
             position: relative;
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -197,21 +239,21 @@ html_content = f"""<!DOCTYPE html>
             aspect-ratio: 16 / 9;
             cursor: pointer;
             transition: border-color 0.2s ease, transform 0.2s ease;
-        }}
+        }
 
-        .grid-item:hover {{
+        .grid-item:hover {
             border-color: #525252;
             transform: translateY(-2px);
-        }}
+        }
 
-        .grid-item img {{
+        .grid-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
-        }}
+        }
 
-        .date-overlay {{
+        .date-overlay {
             position: absolute;
             bottom: 0;
             left: 0;
@@ -226,20 +268,20 @@ html_content = f"""<!DOCTYPE html>
             opacity: 0;
             transform: translateY(8px);
             transition: opacity 0.2s ease, transform 0.2s ease;
-        }}
+        }
 
-        .grid-item:hover .date-overlay {{
+        .grid-item:hover .date-overlay {
             opacity: 1;
             transform: translateY(0);
-        }}
+        }
 
-        .graveyard-grid {{
+        .graveyard-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 0.5rem;
-        }}
+        }
 
-        .modal {{
+        .modal {
             display: none;
             position: fixed;
             z-index: 1000;
@@ -255,42 +297,42 @@ html_content = f"""<!DOCTYPE html>
             padding: 20px;
             opacity: 0;
             transition: opacity 0.3s ease;
-        }}
+        }
 
-        .modal.active {{
+        .modal.active {
             display: flex;
             opacity: 1;
-        }}
+        }
 
-        .modal img {{
+        .modal img {
             max-width: 85vw;
             max-height: 85vh;
             border-radius: 6px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.6);
             transform-origin: top left;
             will-change: transform;
-        }}
+        }
 
-        footer {{
+        footer {
             border-top: 1px solid var(--border-color);
             padding-top: 30px;
             margin-top: 40px;
             text-align: center;
             color: var(--text-muted);
             font-size: 0.9rem;
-        }}
+        }
 
-        footer a {{
+        footer a {
             color: var(--text-main);
             text-decoration: none;
-        }}
+        }
 
-        @media (max-width: 768px) {{
-            .stats-grid, .timeline-grid, .grid-container, .graveyard-grid, .specs-grid {{
+        @media (max-width: 768px) {
+            .stats-grid, .timeline-grid, .grid-container, .graveyard-grid, .specs-grid {
                 grid-template-columns: repeat(2, 1fr);
-            }}
-            h1 {{ font-size: 2.2rem; }}
-        }}
+            }
+            h1 { font-size: 2.2rem; }
+        }
     </style>
 </head>
 <body>
@@ -300,7 +342,7 @@ html_content = f"""<!DOCTYPE html>
             <span class="tagline-badge">Creator Background · Visual Strategy</span>
             <h1>GHUYD LAPAZ</h1>
             <p class="subtitle">I learned to make people click before I ever called myself a designer.</p>
-            <p class="bio-text">I started creating content on YouTube at exactly 14 years old. Back then, Photoshop was just a distant dream budget-wise, and a PC setup wasn't in the cards. Armed with nothing but an iPhone 11, pure grit, and zero AI tools, I edited every video, managed all channel operations, and designed every single thumbnail from scratch on mobile using apps like Pixelmator.</p>
+            <p class="bio-text">I started creating content on YouTube at exactly 14 years old. Back then, Photoshop was out of budget and a PC setup wasn't in the cards. Armed with nothing but an iPhone 11, pure grit, and zero AI tools, I edited every video, managed all channel operations, and designed every single thumbnail from scratch on mobile using Pixelmator.</p>
             <p class="bio-text">That constraints-driven hustle built a channel to over 60K subscribers and 4.25M+ views—buying my peak-era phone entirely from my own channel revenue. Now approaching 21, I’ve upgraded to a proper rig, ready to turn that raw mobile-born resourcefulness into professional production value.</p>
             
             <div class="stats-grid">
@@ -376,4 +418,108 @@ html_content = f"""<!DOCTYPE html>
             <h2>THUMBNAIL GALLERY</h2>
             <p>Created via Pixelmator on mobile. Hover for creation timeline.</p>
             <div class="grid-container">
+    <!-- GALLERY_ITEMS -->
+            </div>
+        </section>
+
+        <section>
+            <h2>THUMBNAIL GRAVEYARD</h2>
+            <p>Early iterations and raw tests from years ago. Growth requires looking back at what didn't work.</p>
+            <div class="graveyard-grid">
+    <!-- GRAVEYARD_ITEMS -->
+            </div>
+        </section>
+
+        <footer>
+            <p>Get in touch: <a href="mailto:might370@gmail.com">might370@gmail.com</a> &nbsp;|&nbsp; Discord: <code>gyd.000000</code></p>
+        </footer>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div id="imageModal" class="modal" onclick="closeModal()">
+        <img id="modalImg" src="" alt="Fullscreen View">
+    </div>
+
+    <script>
+        let activeThumbnail = null;
+
+        function openModal(cardElement) {
+            const img = cardElement.querySelector('img');
+            activeThumbnail = img;
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImg');
+
+            const firstRect = img.getBoundingClientRect();
+            modalImg.src = img.src;
+            modal.classList.add('active');
+            const lastRect = modalImg.getBoundingClientRect();
+
+            const deltaX = firstRect.left - lastRect.left;
+            const deltaY = firstRect.top - lastRect.top;
+            const scaleX = firstRect.width / lastRect.width;
+            const scaleY = firstRect.height / lastRect.height;
+
+            modalImg.style.transition = 'none';
+            modalImg.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`;
+            modalImg.getBoundingClientRect();
+
+            modalImg.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+            modalImg.style.transform = 'translate(0, 0) scale(1)';
+        }
+
+        function openModalFromSrc(src, event) {
+            event.stopPropagation();
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImg');
+            modalImg.src = src;
+            activeThumbnail = null;
+            modal.classList.add('active');
+            modalImg.style.transition = 'none';
+            modalImg.style.transform = 'scale(0.95)';
+            modalImg.getBoundingClientRect();
+            modalImg.style.transition = 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)';
+            modalImg.style.transform = 'scale(1)';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImg');
+
+            if (!activeThumbnail) {
+                modal.classList.remove('active');
+                modalImg.style.transform = 'none';
+                return;
+            }
+
+            const firstRect = activeThumbnail.getBoundingClientRect();
+            const lastRect = modalImg.getBoundingClientRect();
+
+            const deltaX = firstRect.left - lastRect.left;
+            const deltaY = firstRect.top - lastRect.top;
+            const scaleX = firstRect.width / lastRect.width;
+            const scaleY = firstRect.height / lastRect.height;
+
+            modalImg.style.transition = 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease';
+            modalImg.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`;
+            modal.style.opacity = '0';
+
+            setTimeout(() => {
+                modal.classList.remove('active');
+                modal.style.opacity = '1';
+                modalImg.style.transform = 'none';
+                activeThumbnail = null;
+            }, 300);
+        }
+    </script>
+</body>
+</html>
 """
+
+# Inject gallery and graveyard data
+html_content = html_template.replace("<!-- GALLERY_ITEMS -->", gallery_html)
+html_content = html_content.replace("<!-- GRAVEYARD_ITEMS -->", graveyard_html)
+
+with open("index.html", "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+print("Success! Fully updated index.html generated.")
