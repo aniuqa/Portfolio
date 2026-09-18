@@ -134,6 +134,52 @@ html_template = """<!DOCTYPE html>
             z-index: 1;
         }
 
+        /* Top Macro CTA */
+        .top-macro-cta {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            text-transform: lowercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 10px;
+            font-weight: 400;
+            opacity: 0.75;
+            text-align: left;
+        }
+
+        .top-macro-cta span {
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        /* Recruiter Caution Banner */
+        .recruiter-caution {
+            background: linear-gradient(135deg, rgba(246, 173, 141, 0.15) 0%, rgba(27, 23, 25, 0.95) 100%);
+            border: 1px solid rgba(246, 173, 141, 0.35);
+            border-radius: 20px;
+            padding: 18px 24px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .caution-icon {
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .caution-text {
+            font-size: 0.88rem;
+            color: #fdf8f6;
+            line-height: 1.5;
+        }
+
+        .caution-text strong {
+            color: var(--accent-color);
+            letter-spacing: 0.02em;
+        }
+
         header {
             margin-bottom: 70px;
             padding-bottom: 50px;
@@ -144,6 +190,7 @@ html_template = """<!DOCTYPE html>
             align-items: stretch;
         }
 
+        /* Master Expandable Bio Card */
         .header-content {
             background-color: var(--surface-glass);
             border: 1px solid var(--border-glass);
@@ -153,30 +200,48 @@ html_template = """<!DOCTYPE html>
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            cursor: pointer;
+            user-select: none;
             transition: border-color 0.2s ease, background-color 0.2s ease;
         }
 
-        .header-content.expandable-card {
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .header-content.expandable-card:hover {
+        .header-content:hover {
             border-color: var(--border-glass-hover);
             background-color: var(--surface-glass-hover);
         }
 
-        .header-top-row {
+        .master-header-top {
             display: flex;
             align-items: flex-start;
             justify-content: space-between;
-            gap: 20px;
+            width: 100%;
+        }
+
+        .master-expand-arrow {
+            font-size: 1rem;
+            color: var(--accent-color);
+            transition: transform 0.4s ease;
+            font-weight: bold;
+            flex-shrink: 0;
+            margin-top: 5px;
+        }
+
+        .header-content.open .master-expand-arrow {
+            transform: rotate(90deg);
         }
 
         .header-sidebar {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 12px;
+            height: 100%;
+        }
+
+        .header-sidebar > .info-card {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .info-card {
@@ -193,20 +258,6 @@ html_template = """<!DOCTYPE html>
             transform: translateY(-2px);
             background-color: var(--surface-glass-hover);
             border-color: var(--border-glass-hover);
-        }
-
-        .card-logo {
-            width: 18px;
-            height: 18px;
-            object-fit: contain;
-            display: inline-block;
-            vertical-align: middle;
-            flex-shrink: 0;
-            filter: brightness(0) invert(1);
-        }
-
-        .card-logo.original-color {
-            filter: none;
         }
 
         .info-card h3 {
@@ -293,7 +344,7 @@ html_template = """<!DOCTYPE html>
             line-height: 1.4;
         }
 
-        /* Universal Expandable Cards */
+        /* Sidebar Expandable Cards */
         .expandable-card {
             cursor: pointer;
             user-select: none;
@@ -322,7 +373,7 @@ html_template = """<!DOCTYPE html>
             max-height: 0;
             overflow: hidden;
             opacity: 0;
-            transition: max-height 0.5s ease, opacity 0.4s ease, margin-top 0.4s ease, padding 0.4s ease;
+            transition: max-height 0.5s ease, opacity 0.3s ease, margin-top 0.3s ease, padding 0.3s ease;
             margin-top: 0;
             padding-top: 0;
             padding-bottom: 0;
@@ -395,11 +446,12 @@ html_template = """<!DOCTYPE html>
             border: 1px solid rgba(246, 173, 141, 0.2);
         }
 
+        /* 4 Contact Drawers Grid inside Main Card Facade */
         .contacts-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 12px;
-            margin-top: 0;
+            margin-top: 25px;
         }
 
         .contact-drawer-card {
@@ -433,6 +485,17 @@ html_template = """<!DOCTYPE html>
             gap: 10px;
         }
 
+        .contact-drawer-arrow {
+            font-size: 0.75rem;
+            color: var(--accent-color);
+            transition: transform 0.3s ease;
+            font-weight: bold;
+        }
+
+        .contact-drawer-card.open .contact-drawer-arrow {
+            transform: rotate(90deg);
+        }
+
         .contact-drawer-content {
             max-height: 0;
             overflow: hidden;
@@ -464,11 +527,30 @@ html_template = """<!DOCTYPE html>
             text-decoration: underline;
         }
 
+        /* Master Expanded Body & Stories Section */
+        .master-expanded-body {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease, margin-top 0.4s ease, padding 0.4s ease;
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+        }
+
+        .header-content.open .master-expanded-body {
+            max-height: 2500px;
+            opacity: 1;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid var(--border-glass);
+        }
+
         .subtitle {
             font-size: 1.1rem;
             color: var(--text-secondary);
-            margin-bottom: 0;
             font-weight: 400;
+            margin-bottom: 0;
         }
 
         .bio-text {
@@ -476,6 +558,17 @@ html_template = """<!DOCTYPE html>
             color: #c5b8b3;
             line-height: 1.75;
             text-align: justify;
+            margin-bottom: 20px;
+        }
+
+        .portfolio-welcome-tag {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            text-transform: lowercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+            font-weight: 400;
+            opacity: 0.75;
         }
 
         section {
@@ -640,31 +733,6 @@ html_template = """<!DOCTYPE html>
             transform: translateY(0);
         }
 
-        .coffee-container {
-            display: flex;
-            justify-content: center;
-            margin: 80px 0 20px 0;
-        }
-
-        .coffee-btn {
-            background-color: var(--accent-color);
-            color: #121011;
-            font-weight: 700;
-            font-size: 0.95rem;
-            padding: 15px 32px;
-            border-radius: 30px;
-            text-decoration: none;
-            box-shadow: 0 8px 25px var(--accent-glow);
-            transition: transform 0.2s ease, background-color 0.15s ease;
-            will-change: transform;
-        }
-
-        .coffee-btn:hover {
-            transform: translateY(-2px);
-            background-color: #ffc4a8;
-            box-shadow: 0 12px 30px rgba(246, 173, 141, 0.4);
-        }
-
         #iosZoomOverlay {
             position: fixed;
             top: 0;
@@ -725,62 +793,87 @@ html_template = """<!DOCTYPE html>
 <body>
 
     <div class="wrapper">
-        <header>
-            <!-- Expandable Main Bio Header Card -->
-            <div class="header-content expandable-card" id="card-main-bio" onclick="toggleIndependentExpandable('card-main-bio')">
-                <div class="header-top-row">
-                    <div>
-                        <span class="ios-widget-badge">Personal & Career Details</span>
-                        <h1>GHUYD LAPAZ</h1>
-                        <p class="subtitle">I learned to make people click before I ever called myself a designer.</p>
-                    </div>
-                    <div class="expand-arrow" style="margin-top: 12px;">▶</div>
-                </div>
+        <!-- Top Macro CTA -->
+        <div class="top-macro-cta">
+            open for general digital roles, content strategy, media production, & creative tech — <span>let's collaborate</span>
+        </div>
 
-                <div class="expandable-content" onclick="event.stopPropagation()">
-                    <p class="bio-text" style="margin-bottom: 30px;">I started creating content on YouTube at exactly 14 years old. My foundational design instincts were built entirely on mobile constraints without a single AI shortcut, purely because AI wasn't that prevalent back then (2018–2022). Armed with an Oppo A7, zero budget, and sheer resourcefulness, I edited every video and designed every thumbnail from scratch on mobile using Pixelmator. By 2020, through channel revenue earned from scaling my content to over 4.25M+ views and 60K+ subscribers, I bought an iPhone 11 and proudly purchased Pixelmator legally—which eventually caught the software company's eye, leading to a direct partnership offer. Coupled with early hands-on lab experience with desktop Photoshop during my Senior High School animation ICT coursework, I know how to execute under any condition. By late 2025, I finally secured my current desktop rig, ready to scale up output and speed.</p>
-                    
+        <!-- Recruiter Caution Banner -->
+        <div class="recruiter-caution">
+            <div class="caution-icon">⚠️</div>
+            <div class="caution-text">
+                <strong>ATTENTION EMPLOYERS & CHANNEL OWNERS:</strong> Please <em>read the expandable professional profile below first</em> before scrolling down to examine the raw portfolio metrics, thumbnails, and channel telemetry.
+            </div>
+        </div>
+
+        <header>
+            <!-- Master Bio Card (Expandable Header) -->
+            <div class="header-content" id="master-bio-card" onclick="toggleMasterBio(event)">
+                <div>
+                    <div class="master-header-top">
+                        <div style="width: 100%;">
+                            <span class="ios-widget-badge">Digital Generalist, Content Strategist & Creative Specialist</span>
+                            <h1>GHUYD LAPAZ</h1>
+                            <p class="subtitle">
+                                I learned to make people click before I ever called myself a designer.
+                            </p>
+                        </div>
+                        <div class="master-expand-arrow">▶</div>
+                    </div>
+
+                    <!-- 4 Contact Drawers embedded on the facade -->
                     <div class="contacts-grid">
-                        <div class="contact-drawer-card expandable-card" id="drawer-phone" onclick="toggleIndependentExpandable('drawer-phone')">
+                        <div class="contact-drawer-card" id="drawer-phone" onclick="toggleContactDrawer(event, 'drawer-phone')">
                             <div class="contact-drawer-header">
-                                <div class="contact-drawer-title"><img src="telephone.png" alt="Phone" class="card-logo"> Phone</div>
-                                <div class="expand-arrow">▶</div>
+                                <div class="contact-drawer-title">📞 Phone</div>
+                                <div class="contact-drawer-arrow">▶</div>
                             </div>
                             <div class="contact-drawer-content" onclick="event.stopPropagation()">
                                 <a href="tel:+639997387979">+639997387979</a>
                             </div>
                         </div>
 
-                        <div class="contact-drawer-card expandable-card" id="drawer-discord" onclick="toggleIndependentExpandable('drawer-discord')">
+                        <div class="contact-drawer-card" id="drawer-discord" onclick="toggleContactDrawer(event, 'drawer-discord')">
                             <div class="contact-drawer-header">
-                                <div class="contact-drawer-title"><img src="discord.png" alt="Discord" class="card-logo"> Discord</div>
-                                <div class="expand-arrow">▶</div>
+                                <div class="contact-drawer-title">💬 Discord</div>
+                                <div class="contact-drawer-arrow">▶</div>
                             </div>
                             <div class="contact-drawer-content" onclick="event.stopPropagation()">
                                 <code>gyd.000000</code>
                             </div>
                         </div>
 
-                        <div class="contact-drawer-card expandable-card" id="drawer-email" onclick="toggleIndependentExpandable('drawer-email')">
+                        <div class="contact-drawer-card" id="drawer-email" onclick="toggleContactDrawer(event, 'drawer-email')">
                             <div class="contact-drawer-header">
-                                <div class="contact-drawer-title"><img src="email.png" alt="Email" class="card-logo"> Email</div>
-                                <div class="expand-arrow">▶</div>
+                                <div class="contact-drawer-title">✉️ Email</div>
+                                <div class="contact-drawer-arrow">▶</div>
                             </div>
                             <div class="contact-drawer-content" onclick="event.stopPropagation()">
                                 <a href="mailto:might370@gmail.com">might370@gmail.com</a>
                             </div>
                         </div>
 
-                        <div class="contact-drawer-card expandable-card" id="drawer-linkedin" onclick="toggleIndependentExpandable('drawer-linkedin')">
+                        <div class="contact-drawer-card" id="drawer-linkedin" onclick="toggleContactDrawer(event, 'drawer-linkedin')">
                             <div class="contact-drawer-header">
-                                <div class="contact-drawer-title"><img src="linkedin.png" alt="LinkedIn" class="card-logo original-color"> LinkedIn</div>
-                                <div class="expand-arrow">▶</div>
+                                <div class="contact-drawer-title">💼 LinkedIn</div>
+                                <div class="contact-drawer-arrow">▶</div>
                             </div>
                             <div class="contact-drawer-content" onclick="event.stopPropagation()">
                                 <a href="https://linkedin.com" target="_blank">linkedin.com/in/ghuyd-lapaz</a>
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <!-- Master Expanded Body & Stories Section (reveals only when master card is clicked) -->
+                <div class="master-expanded-body" onclick="event.stopPropagation()">
+                    <p class="bio-text">
+                        <strong>What this means for your team or brand:</strong> While my personal track record stems from a hyper-competitive gaming niche (Mobile Legends), my mechanics are entirely niche-agnostic. I can step in, audit, override, and self-manage an existing channel or digital infrastructure globally from end-to-end. I understand multi-platform asset ratios and image templates for fields like IG, FB, and YouTube, alongside granular thumbnail and title psychology. My ability was constrained only by my personal YouTube niche; I can transfer everything seamlessly into any domain. Whether it's vibe-coding, advanced video editing, image manipulation, data analytics, algorithmic analysis, AI tool integration, or multi-platform scaling—I execute cleanly. I am an advocate for simplicity (<em>'just because you can, doesn't mean you should'</em>), delivering high-speed, high-impact output. Backed by C1 English proficiency, global collaboration is second nature.
+                    </p>
+                    
+                    <p class="bio-text" style="border-top: 1px solid var(--border-glass); padding-top: 20px; margin-top: 20px;">
+                        <strong>My Origin Story:</strong> I started creating content on YouTube at exactly 14 years old. My foundational design instincts were built entirely on mobile constraints without a single AI shortcut, purely because AI wasn't that prevalent back then (2018–2022). Armed with an Oppo A7, zero budget, and sheer resourcefulness, I edited every video and designed every thumbnail from scratch on mobile using Pixelmator. By 2020, through channel revenue earned from scaling my content to over 4.25M+ views and 60K+ subscribers, I bought an iPhone 11 and proudly purchased Pixelmator legally—which eventually caught the software company's eye, leading to a direct partnership offer. Coupled with early hands-on lab experience with desktop Photoshop during my Senior High School animation ICT coursework, and my current desktop rig secured in late 2025, I am fully equipped to scale your output, production speed, and digital presence.
+                    </p>
                 </div>
             </div>
 
@@ -801,9 +894,9 @@ html_template = """<!DOCTYPE html>
                 </a>
 
                 <!-- Origin Era Expandable Card -->
-                <div class="info-card expandable-card" id="card-origin" onclick="toggleIndependentExpandable('card-origin')">
+                <div class="info-card expandable-card" id="card-origin" onclick="toggleSidebarExpandable('card-origin')">
                     <div class="expandable-header">
-                        <h3><img src="iphone.png" alt="iPhone" class="card-logo"> Origin Era (Mobile)</h3>
+                        <h3>📱 Origin Era (Mobile)</h3>
                         <div class="expand-arrow">▶</div>
                     </div>
                     <p style="margin-top: 6px;"><strong>Device:</strong> iPhone 11 / Oppo A7</p>
@@ -825,9 +918,9 @@ html_template = """<!DOCTYPE html>
                 </div>
 
                 <!-- Desktop Rig Expandable Card -->
-                <div class="info-card expandable-card" id="card-desktop" onclick="toggleIndependentExpandable('card-desktop')">
+                <div class="info-card expandable-card" id="card-desktop" onclick="toggleSidebarExpandable('card-desktop')">
                     <div class="expandable-header">
-                        <h3><img src="computer.png" alt="Computer" class="card-logo"> Current Desktop Rig</h3>
+                        <h3>💻 Current Desktop Rig</h3>
                         <div class="expand-arrow">▶</div>
                     </div>
                     <p style="margin-top: 6px;"><strong>Specs:</strong> Ryzen 5 5600G | GTX 1060 | 16GB RAM</p>
@@ -849,6 +942,7 @@ html_template = """<!DOCTYPE html>
         </header>
 
         <section>
+            <div class="portfolio-welcome-tag">welcome to my simple vibe-coded portfolio/website</div>
             <div class="channel-header-row">
                 <div class="channel-pfp">
                     <img src="pfp_1.jpg" alt="Unarmed PFP" loading="lazy" decoding="async" onerror="this.style.display='none'">
@@ -936,12 +1030,8 @@ html_template = """<!DOCTYPE html>
             </div>
         </section>
 
-        <div class="coffee-container">
-            <a href="https://buymeacoffee.com" target="_blank" class="coffee-btn">Buy me a coffee ☕</a>
-        </div>
-
         <footer>
-            <p>PROFESSIONAL PORTFOLIO // Ghuyd Lapaz &nbsp;|&nbsp; Contact: <a href="mailto:might370@gmail.com">might370@gmail.com</a></p>
+            <p><em>Just because you can doesn't mean you should</em></p>
         </footer>
     </div>
 
@@ -958,7 +1048,20 @@ html_template = """<!DOCTYPE html>
             }
         }
 
-        function toggleIndependentExpandable(cardId) {
+        function toggleMasterBio(event) {
+            const card = document.getElementById('master-bio-card');
+            card.classList.toggle('open');
+        }
+
+        function toggleContactDrawer(event, drawerId) {
+            event.stopPropagation();
+            const drawer = document.getElementById(drawerId);
+            if (drawer) {
+                drawer.classList.toggle('open');
+            }
+        }
+
+        function toggleSidebarExpandable(cardId) {
             const card = document.getElementById(cardId);
             if (card) {
                 card.classList.toggle('open');
@@ -1071,4 +1174,4 @@ final_html = final_html.replace("__GRAVEYARD_HTML__", graveyard_html)
 with open("index.html", "w", encoding="utf-8") as f:
     f.write(final_html)
 
-print("Main intro box successfully turned into an interactive expandable drawer with warm pastel aesthetic!")
+print("index.html updated successfully with the coffee button removed and the footer updated!")
